@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Datos
 {
-    internal class Prestamo
+    public class Prestamo
     {
         public int Id { get; set; }
         public DateTime FechaDeSalida { get; set; }
@@ -18,6 +18,5 @@ namespace Datos
         public Usuario Bibliotecario { get; set; }
         public Cliente Cliente { get; set; }
         public List<Libro> Libros { get; set; }
-        public List<PrestamoLibro> PrestamosLibros { get; set; }
     }
 }

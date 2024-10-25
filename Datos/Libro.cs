@@ -17,8 +17,8 @@ namespace Datos
         public int EditorialId { get; set; }
 
         // para manejo interno de EF
-        public List<LibroAutor> LibrosAutores { get; set; }
+        public List<Autor> Autores { get; set; }
         public Editorial Editorial { get; set; }
-        public List<PrestamoLibro> PrestamosLibros { get; set; }
+        public List<Prestamo> Prestamos { get; set; }
     }
 }
