@@ -20,7 +20,8 @@ namespace Datos
         [Required, MaxLength(50)]
         public string Apellidos { get; set; }
 
-        // para manejo interno de EF
+        // para manejo interno de EF ORM Object Relational Mapper
+        [NotMapped]
         public List<Libro> Libros { get; set; }
     }
 }
