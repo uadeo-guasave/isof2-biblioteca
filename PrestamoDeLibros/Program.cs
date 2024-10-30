@@ -42,9 +42,55 @@ static void GuardarAutores()
     using (var db = new Datos.SqliteDbContext())
     {
         db.Autores.Add(autor1);
+        // INSERT INTO Autores(Nombre, Apellidos) VALUES ('Autor', 'Uno');
         db.Autores.Add(autor2);
         db.Autores.Add(autor3);
         db.SaveChanges();
+    }
+}
+
+MostrarTodosLosAutores(); 
+static void MostrarTodosLosAutores()
+{
+    using (var db = new Datos.SqliteDbContext())
+    {
+        // Open()
+        var autores = db.Autores.ToList();
+        if (autores.Any())
+        {
+            autores.ForEach(a => Console.WriteLine(a.Nombre+" "+a.Apellidos));
+        }
+        // Close()
+    }
+}
+
+// CambiarApellidosDeAutor(3);
+// MostrarTodosLosAutores();
+static void CambiarApellidosDeAutor(int autorId)
+{
+    using (var db = new Datos.SqliteDbContext())
+    {
+        var autor = db.Autores.Find(autorId);
+        if (autor is not null)
+        {
+            autor.Apellidos = "Hernandez";
+            db.SaveChanges();
+        }
+    }
+}
+
+EliminarUnAutor(3);
+MostrarTodosLosAutores();
+static void EliminarUnAutor(int autorId)
+{
+    using (var db = new Datos.SqliteDbContext())
+    {
+        var autor = db.Autores.Find(autorId);
+        if (autor is not null)
+        {
+            db.Autores.Remove(autor);
+            db.SaveChanges();
+        }
     }
 }
 
