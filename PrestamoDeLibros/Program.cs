@@ -3,12 +3,13 @@
 // toma el tipo de dato al inicializarse
 using Datos;
 
-// InicializarBaseDeDatos();
+InicializarBaseDeDatos();
 // GuardarAutores();
 
 static void InicializarBaseDeDatos()
 {
     var db = new Datos.SqliteDbContext();
+    db.Database.EnsureDeleted();
     db.Database.EnsureCreated();
 }
 
@@ -17,6 +18,7 @@ usuario.Alias = "user1";
 usuario.Contraseña = "123456";
 usuario.CorreoElectronico = "mi@correo.com";
 usuario.Telefono = "6870000000";
+usuario.Tipo = TipoDeUsuario.Administrador;
 
 
 
@@ -49,7 +51,7 @@ static void GuardarAutores()
     }
 }
 
-MostrarTodosLosAutores(); 
+// MostrarTodosLosAutores(); 
 static void MostrarTodosLosAutores()
 {
     using (var db = new Datos.SqliteDbContext())
@@ -79,8 +81,8 @@ static void CambiarApellidosDeAutor(int autorId)
     }
 }
 
-EliminarUnAutor(3);
-MostrarTodosLosAutores();
+// EliminarUnAutor(3);
+// MostrarTodosLosAutores();
 static void EliminarUnAutor(int autorId)
 {
     using (var db = new Datos.SqliteDbContext())

@@ -13,6 +13,23 @@ public class SqliteDbContext : DbContext
 
     // agregar los DbSet (cada DbSet corresponde a una tabla)
     public DbSet<Autor> Autores { get; set; }
+    public DbSet<Editorial> Editoriales { get; set; }
+    public DbSet<Libro> Libros { get; set; }
 
     // definir la configuración de las tablas (relaciones)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Relación de Libros a Editoriales (N:1)
+        modelBuilder.Entity<Libro>()
+            .HasOne(l => l.Editorial)
+            .WithMany(e => e.Libros)
+            .HasForeignKey(l => l.EditorialId);
+            
+        // Definir columna única
+        modelBuilder.Entity<Libro>()
+            .HasIndex(l => l.Isbn).IsUnique();
+
+        base.OnModelCreating(modelBuilder);
+    }
+
 }

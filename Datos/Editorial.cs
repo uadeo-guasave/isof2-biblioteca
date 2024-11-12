@@ -17,16 +17,16 @@ namespace Datos
         public string Nombre { get; set; }
 
         [MaxLength(100)]
-        public string Pais { get; set; }
+        public string? Pais { get; set; }
 
         [MaxLength(30)]
-        public string Telefono { get; set; }
+        public string? Telefono { get; set; }
 
         [EmailAddress]
-        public string CorreoElectronico { get; set; }
+        public string? CorreoElectronico { get; set; }
 
         [Url]
-        public string SitioWeb { get; set; }
+        public string? SitioWeb { get; set; }
 
         // para manejo interno de EF
         [NotMapped]
