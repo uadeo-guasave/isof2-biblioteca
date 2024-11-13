@@ -2,8 +2,9 @@
 // var asigna tipo de dato por inferencia
 // toma el tipo de dato al inicializarse
 using Datos;
+using Microsoft.EntityFrameworkCore;
 
-InicializarBaseDeDatos();
+// InicializarBaseDeDatos();
 // GuardarAutores();
 
 static void InicializarBaseDeDatos()
@@ -60,7 +61,7 @@ static void MostrarTodosLosAutores()
         var autores = db.Autores.ToList();
         if (autores.Any())
         {
-            autores.ForEach(a => Console.WriteLine(a.Nombre+" "+a.Apellidos));
+            autores.ForEach(a => Console.WriteLine(a.Nombre + " " + a.Apellidos));
         }
         // Close()
     }
@@ -96,40 +97,94 @@ static void EliminarUnAutor(int autorId)
     }
 }
 
-// var editorial1 = new Editorial
-// {
-//     Id = 1,
-//     Nombre = "Editorial Uno"
-// };
+// CrearEditoriales();
 
-// var editorial2 = new Editorial
-// {
-//     Id = 2,
-//     Nombre = "Editorial Dos"
-// };
+static void CrearEditoriales()
+{
+    var editorial1 = new Editorial
+    {
+        Nombre = "Editorial Uno"
+    };
+    var editorial2 = new Editorial
+    {
+        Nombre = "Editorial Dos"
+    };
+    using (var db = new Datos.SqliteDbContext())
+    {
+        db.Editoriales.Add(editorial1);
+        db.Editoriales.Add(editorial2);
+        db.SaveChanges();
+    }
+}
 
-// // libro1 = autor1 y autor2, editorial1
-// var libro1 = new Libro
-// {
-//     Id = 1,
-//     Titulo = "Libro Uno",
-//     EditorialId = editorial1.Id,
-//     Editorial = editorial1,
-//     Autores = new List<Autor>
-//     {
-//         autor1,
-//         autor2
-//     }
-// };
-// // libro2 = autor3, editorial2
-// var libro2 = new Libro
-// {
-//     Id = 2,
-//     Titulo = "Libro Dos",
-//     EditorialId = editorial2.Id,
-//     Editorial = editorial2,
-//     Autores = new List<Autor> { autor3 }
-// };
+// CrearLibros();
+
+static void CrearLibros()
+{
+    // // libro1 = autor1 y autor2, editorial1
+    var libro1 = new Libro
+    {
+        Titulo = "Libro Uno",
+        Isbn = "123",
+        EditorialId = 1
+    };
+    // // libro2 = autor3, editorial2
+    var libro2 = new Libro
+    {
+        Titulo = "Libro Dos",
+        Isbn = "456",
+        EditorialId = 2
+    };
+
+    var libro3 = new Libro
+    {
+        Titulo = "Libro Tres",
+        Isbn = "789",
+        EditorialId = 1
+    };
+    using (var db = new Datos.SqliteDbContext())
+    {
+        db.Libros.Add(libro1);
+        db.Libros.Add(libro2);
+        db.Libros.Add(libro3);
+        db.SaveChanges();
+    }
+}
+
+
+MostrarLibrosYEditoriales();
+
+static void MostrarLibrosYEditoriales()
+{
+    using (var db = new Datos.SqliteDbContext())
+    {
+        var libros = db.Libros.Include(l => l.Editorial).ToList();
+        if (libros.Count > 0)
+        {
+            foreach (var libro in libros)
+            {
+                Console.WriteLine($"Id: {libro.Id}, Titulo: {libro.Titulo}, ISBN: {libro.Isbn}, Editorial: {libro.Editorial.Nombre}");
+            }
+        }
+    }
+}
+
+MostrarLibrosDeLaEditorial(1);
+
+static void MostrarLibrosDeLaEditorial(int editorialId)
+{
+    using (var db = new Datos.SqliteDbContext())
+    {
+        var libros = db.Libros.Include(l => l.Editorial).Where(l => l.EditorialId == editorialId).ToList();
+        if (libros.Count > 0)
+        {
+            foreach (var libro in libros)
+            {
+                Console.WriteLine($"Id: {libro.Id}, Titulo: {libro.Titulo}, ISBN: {libro.Isbn}, Editorial: {libro.Editorial.Nombre}");
+            }
+        }
+    }
+}
 
 // // definir un cliente
 // var cliente1 = new Cliente
